@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.template.loader import render_to_string
 
@@ -17,16 +17,14 @@ challenges = {
     'september': 'This is September month',
     'october': 'This is October month',
     'november': 'This is November month',
-    'december': 'This is December month',
+    'december': None,
 }
 
 def index(request):
     months = list(challenges.keys())
-    lst = ''       
-    for month in months:
-        month_path = reverse("month-challenge", args=[month])
-        lst += f'<li><a href="{month_path}">{month.capitalize()}</a></li>'
-    return HttpResponse(f'<ul>{lst}</ul>')
+    return render(request, "challenges/index.html", {
+        "months": months
+    })
 
 def challenge_by_no(request, month):
     months = list(challenges.keys())
@@ -39,6 +37,9 @@ def challenge_by_no(request, month):
 
 def challenge(request, month):
     try:
-        return render(request, "challenges/challenge.html")
+        return render(request, "challenges/challenge.html", {
+            "month": month.capitalize(),
+            "challenge_text": challenges[month],
+        })
     except:
-        return HttpResponseNotFound("This month is not supported")
+        raise Http404()

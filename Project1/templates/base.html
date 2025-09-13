@@ -1,0 +1,14 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>{% block title %} Challenges {% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+        {% block css_files %}{% endblock %}
+    </head>
+    <body>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
