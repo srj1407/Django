@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>My Tasks</h1>
+    <a href="{% url 'add_task' %}">+ Add Task</a>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <strong>{{ task.title }}</strong> - 
+                {% if task.completed %}
+                    ✅ Completed
+                {% else %}
+                    ❌ Pending | <a href="{% url 'complete_task' task.id %}">Mark Complete</a>
+                {% endif %}
+                <br>
+                Deadline: {{ task.deadline|default:"No deadline" }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
