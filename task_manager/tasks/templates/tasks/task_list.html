@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Task Manager</title>
-</head>
-<body>
-    <h1>My Tasks</h1>
-    <a href="{% url 'add_task' %}">+ Add Task</a>
-    <ul>
-        {% for task in tasks %}
-            <li>
-                <strong>{{ task.title }}</strong> - 
-                {% if task.completed %}
-                    ✅ Completed
-                {% else %}
-                    ❌ Pending | <a href="{% url 'complete_task' task.id %}">Mark Complete</a>
-                {% endif %}
-                <br>
-                Deadline: {{ task.deadline|default:"No deadline" }}
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+  <h2>Your Tasks</h2>
+  <a href="{% url 'add_task' %}" class="btn btn-primary mb-3">Add Task</a>
+  <ul class="list-group">
+    {% for task in tasks %}
+      <li class="list-group-item d-flex justify-content-between">
+        {{ task.title }}
+        {% if not task.completed %}
+          <a href="{% url 'complete_task' task.id %}" class="btn btn-success btn-sm">Complete</a>
+        {% else %}
+          <span class="badge bg-secondary">Done</span>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li class="list-group-item">No tasks yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

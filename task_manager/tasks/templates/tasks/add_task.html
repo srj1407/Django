@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Task</title>
-</head>
-<body>
-    <h1>Add a New Task</h1>
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<div class="card p-4 shadow-sm" style="max-width: 500px; margin: auto;">
+    <h3 class="mb-3 text-center">Add New Task</h3>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
+        <button type="submit" class="btn btn-primary w-100">Save Task</button>
     </form>
-    <a href="{% url 'task_list' %}">Back to Tasks</a>
-</body>
-</html>
+    <div class="mt-2 text-center">
+        <a href="{% url 'task_list' %}">Back to Tasks</a>
+    </div>
+</div>
+{% endblock %}
