@@ -1,10 +1,12 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
+
 from .models import Author, Category, Book, Order
-from .serializers import AuthorSerializer, CategorySerializer, BookSerializer, OrderSerializer
-from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
+from .serializers import AuthorSerializer, CategorySerializer, BookSerializer, OrderSerializer, UserSignupSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
@@ -29,3 +31,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # Automatically assign current user to the order
         serializer.save(user=self.request.user)
+
+class SignupView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSignupSerializer
+    permission_classes = [AllowAny]
